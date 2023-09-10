@@ -16,16 +16,10 @@ export interface WebRtcIceCandidate {
 
 export interface ClientEvents {
   joinRoom: (room: string) => void;
-  webRtcAnswer: (webRtcAnswer: WebRtcAnswer) => void;
-  webRtcIceCandidate: (webRtcIceCandidate: WebRtcIceCandidate) => void;
-  webRtcOffer: (webRtcOffer: WebRtcOffer) => void;
 }
 
 export interface ServerEvents {
   connected: () => void;
   peerConnect: (sid: string) => void;
   peerDisconnect: (sid: string) => void;
-  webRtcAnswer: (webRtcAnswer: WebRtcAnswer) => void;
-  webRtcIceCandidate: (webRtcIceCandidate: WebRtcIceCandidate) => void;
-  webRtcOffer: (webRtcOffer: WebRtcOffer) => void;
 }
