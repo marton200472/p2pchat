@@ -8,6 +8,7 @@ import {
 } from "../../../lib/src/types/websockets";
 import { Logger } from "../lib/logger";
 import { Server, Socket } from "./types";
+import { log } from "winston";
 
 const onJoinRoom = (logger: Logger, socket: Socket) => (room: string) => {
   logger.info(`join room=${room} sid=${socket.id}`);
@@ -19,24 +20,31 @@ const onJoinRoom = (logger: Logger, socket: Socket) => (room: string) => {
     logger.info(element.id);
   });*/
 
-  socket.broadcast.to(room).emit("peerConnect", socket.id);
+  socket.broadcast.to(room).emit("peerConnect", socket.data.peerjsid);
 };
+
+const onSetPeerJsId = (logger: Logger, socket: Socket) => (id: string) => {
+  socket.data.peerjsid = id;
+  socket.emit("peerJsIdSet");
+}
 
 const onDisconnect = (logger: Logger, socket: Socket) => (reason: string) => {
   logger.info(`disconnecting reason=${reason} sid=${socket.id}`);
 
   socket.rooms.forEach((room) => {
-    socket.broadcast.to(room).emit("peerDisconnect", socket.id);
+    socket.broadcast.to(room).emit("peerDisconnect", socket.data.peerjsid);
   });
   
 };
 
 const onConnection = (logger: Logger, server: Server) => (socket: Socket) => {
   logger.info(`connection sid=${socket.id}`);
-
-  socket.emit("connected");
+  
   socket.on("joinRoom", onJoinRoom(logger, socket));
   socket.on("disconnecting", onDisconnect(logger, socket));
+  socket.on("setPeerJsId", onSetPeerJsId(logger, socket));
+
+  socket.emit("connected");
 };
 
 export const createServer = (logger: Logger): Server => {

@@ -2,10 +2,11 @@ import { createConsoleLogger } from "./lib/logger";
 import { createServer } from "./websockets";
 
 const express = require("express");
+const cors = require("cors");
 const { ExpressPeerServer } = require("peer");
 
 const app = express();
-
+app.use(cors());
 
 const port = 9000;
 

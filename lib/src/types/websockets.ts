@@ -16,10 +16,12 @@ export interface WebRtcIceCandidate {
 
 export interface ClientEvents {
   joinRoom: (room: string) => void;
+  setPeerJsId: (id: string) => void;
 }
 
 export interface ServerEvents {
   connected: () => void;
+  peerJsIdSet: () => void;
   peerConnect: (sid: string) => void;
   peerDisconnect: (sid: string) => void;
 }
