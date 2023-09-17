@@ -16,6 +16,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "peer": "^1.0.1",
+    "peerjs-server": "^0.2.9",
     "socket.io": "^4.6.1",
     "winston": "^3.3.3"
   },

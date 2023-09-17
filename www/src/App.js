@@ -11,7 +11,7 @@ function App() {
   return (
     <BrowserRouter basename="">
       <Routes>
-        <Route path="/" element={<Call></Call>}/>
+        <Route path="/" element={<p>Navigate to call URL</p>}/>
         <Route path="/:roomName" element={<Call/>} />
       </Routes>
     </BrowserRouter>

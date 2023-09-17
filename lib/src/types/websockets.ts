@@ -15,7 +15,7 @@ export interface WebRtcIceCandidate {
 }
 
 export interface ClientEvents {
-  joinRoom: (room: string) => void;
+  joinRoom: (room: string, callback: CallableFunction) => void;
   setPeerJsId: (id: string) => void;
 }
 

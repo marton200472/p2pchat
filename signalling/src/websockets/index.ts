@@ -10,7 +10,7 @@ import { Logger } from "../lib/logger";
 import { Server, Socket } from "./types";
 import { log } from "winston";
 
-const onJoinRoom = (logger: Logger, socket: Socket) => (room: string) => {
+const onJoinRoom = (logger: Logger, socket: Socket) => (room: string, callback: CallableFunction) => {
   logger.info(`join room=${room} sid=${socket.id}`);
 
   socket.join(room);
@@ -21,6 +21,7 @@ const onJoinRoom = (logger: Logger, socket: Socket) => (room: string) => {
   });*/
 
   socket.broadcast.to(room).emit("peerConnect", socket.data.peerjsid);
+  callback();
 };
 
 const onSetPeerJsId = (logger: Logger, socket: Socket) => (id: string) => {
@@ -51,7 +52,7 @@ export const createServer = (logger: Logger): Server => {
   const server = new IOServer<ClientEvents, ServerEvents>({
     cors: {
       origin: process.env.NODE_ENV === "development" ? "*" : "*",
-      methods: ["GET", "POST"],
+      //methods: ["GET", "POST"],
     },
   });
 
